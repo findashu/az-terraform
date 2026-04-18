@@ -1,101 +1,136 @@
 ---
-title: Terraform Command Basics
-description: Learn Terraform Commands like init, validate, plan, apply and destroy
+
+# Terraform Command Basics
+
+This guide covers the essential Terraform commands for managing infrastructure as code on Azure. You will learn how to initialize, validate, plan, apply, and destroy resources using Terraform CLI.
+
 ---
 
-## Step-01: Introduction
-- Understand basic Terraform Commands
-1. terraform init
-2. terraform validate
-3. terraform plan
-4. terraform apply
-5. terraform destroy      
+## 1. Introduction
 
-[![Image](https://stacksimplify.com/course-images/azure-terraform-workflow-1.png "HashiCorp Certified: Terraform Associate on Azure")](https://stacksimplify.com/course-images/azure-terraform-workflow-1.png)
+Terraform is an open-source tool for provisioning and managing cloud infrastructure. The following core commands are fundamental to any Terraform workflow:
 
-[![Image](https://stacksimplify.com/course-images/azure-terraform-workflow-2.png "HashiCorp Certified: Terraform Associate on Azure")](https://stacksimplify.com/course-images/azure-terraform-workflow-2.png)
+- `terraform init` – Initialize a working directory containing Terraform configuration files.
+- `terraform validate` – Check whether the configuration is valid.
+- `terraform plan` – Preview the changes Terraform will make to your infrastructure.
+- `terraform apply` – Apply the planned changes to reach the desired state.
+- `terraform destroy` – Destroy the managed infrastructure.
 
-## Step-02: Review terraform manifests
-- **Pre-Conditions-1:** Get Azure Regions and decide the region where you want to create resources
-```t
-# Get Azure Regions
-az account list-locations -o table
-```
-- **Pre-Conditions-2:** If not done earlier, complete `az login` via Azure CLI. We are going to use Azure CLI Authentication for Terraform when we use Terraform Commands. 
-```t
-# Azure CLI Login
-az login
+---
 
-# List Subscriptions
-az account list
 
-# Set Specific Subscription (if we have multiple subscriptions)
-az account set --subscription="SUBSCRIPTION_ID"
-```
-- [Azure Regions](https://docs.microsoft.com/en-us/azure/virtual-machines/regions)
-- [Azure Regions Detailed](https://docs.microsoft.com/en-us/azure/best-practices-availability-paired-regions#what-are-paired-regions)
-```t
-# Terraform Settings Block
+## 2. Prerequisites
+
+Before running Terraform commands, ensure you have:
+
+1. **Azure CLI installed and authenticated**
+    - [Install Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+    - Login to your Azure account:
+      ```sh
+      az login
+      ```
+    - (Optional) List and set your subscription:
+      ```sh
+      az account list
+      az account set --subscription "SUBSCRIPTION_ID"
+      ```
+2. **Terraform installed** ([Install Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli))
+3. **Choose an Azure region**
+    - List available regions:
+      ```sh
+      az account list-locations -o table
+      ```
+    - [Azure Regions](https://docs.microsoft.com/en-us/azure/virtual-machines/regions)
+
+---
+
+## 3. Review Example Terraform Manifest
+
+Below is a sample configuration to create a resource group in Azure:
+
+```hcl
 terraform {
   required_version = ">= 1.0.0"
   required_providers {
     azurerm = {
-      source = "hashicorp/azurerm"
-      version = ">= 2.0" # Optional but recommended in production
-    }    
+      source  = "hashicorp/azurerm"
+      version = ">= 2.0"
+    }
   }
 }
-# Configure the Microsoft Azure Provider
+
 provider "azurerm" {
   features {}
 }
-# Create Resource Group 
+
 resource "azurerm_resource_group" "my_demo_rg1" {
   location = "eastus"
-  name = "my-demo-rg1"  
+  name     = "my-demo-rg1"
 }
 ```
 
-## Step-03: Terraform Core Commands
-```t
-# Terraform Initialize
+---
+
+
+## 4. Terraform Core Commands
+
+Run the following commands in your project directory:
+
+```sh
+# Initialize the working directory
 terraform init
 
-# Terraform Validate
+# Validate the configuration
 terraform validate
 
-# Terraform Plan to Verify what it is going to create / update / destroy
+# Preview the changes
 terraform plan
 
-# Terraform Apply to Create Resources
-terraform apply 
+# Apply the changes (provision resources)
+terraform apply
 ```
 
-## Step-04: Verify Azure Resource Group in Azure Management Console
-- Go to Azure Management Console -> Resource Groups 
-- Verify newly created Resource Group
-- Review `terraform.tfstate` file 
+---
 
-## Step-05: Destroy Infrastructure
-```t
-# Destroy Azure Resource Group 
+
+## 5. Verify Resources in Azure Portal
+
+- Go to the [Azure Portal](https://portal.azure.com/) → Resource Groups
+- Confirm the new resource group is created
+- Review the `terraform.tfstate` file in your project directory (tracks resource state)
+
+---
+
+
+## 6. Destroy Infrastructure
+
+To remove all resources managed by this configuration:
+
+```sh
 terraform destroy
-Observation:
-1. Verify if the resource group got deleted in Azure Management Console
-2. Verify terraform.tfstate file and resource group info should be removed
-3. Verify terraform.tfstate.backup, it should have the resource group info here stored as backup. 
+```
 
-# Delete Terraform files 
+**After destroy:**
+- Check in the Azure Portal that the resource group is deleted
+- The `terraform.tfstate` file should be updated (or removed)
+- The `terraform.tfstate.backup` file contains the previous state as a backup
+
+**Clean up local files (optional):**
+```sh
 rm -rf .terraform*
 rm -rf terraform.tfstate*
 ```
 
-## Step-08: Conclusion
-- Re-iterate what we have learned in this section
-- Learned about Important Terraform Commands
-1. terraform init
-2. terraform validate
-3. terraform plan
-4. terraform apply
-5. terraform destroy      
+---
+
+
+## 7. Conclusion
+
+In this section, you learned how to:
+- Initialize a Terraform project
+- Validate configuration files
+- Preview and apply infrastructure changes
+- Destroy managed resources
+
+These commands form the foundation of working with Terraform for any cloud provider.
  
