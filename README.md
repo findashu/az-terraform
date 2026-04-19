@@ -1,4 +1,3 @@
-
 # 🚀 Azure Terraform Learning Repo
 
 ![MIT License](https://img.shields.io/github/license/findashu/az-terraform)
@@ -17,8 +16,11 @@ Welcome! This repository is a hands-on guide for learning Infrastructure as Code
 	Learn and practice core Terraform commands (`init`, `validate`, `plan`, `apply`, `destroy`).
 3. [Terraform Language Basics](03-Terraform-language-basics/README.md)  
 	Understand HCL syntax, blocks, arguments, and meta-arguments.
+
 4. [Resource Syntax, Behavior & State](04-tf-resource-behaviour-state/README.md)  
 	Learn about resource block syntax, lifecycle behavior, and Terraform state management.
+5. [Azure VNET, Subnets & NSG (Hands-On)](05-Azure-Vnet-Subnet-NSG/README.md)  
+	Build a multi-tier Azure Virtual Network with subnets and NSGs using advanced Terraform concepts.
 
 ---
 
@@ -37,6 +39,19 @@ Welcome! This repository is a hands-on guide for learning Infrastructure as Code
 ## 💡 Why Terraform?
 
 Terraform enables you to define, provision, and manage Azure infrastructure using code. This approach brings repeatability, version control, and collaboration to cloud resource management.
+
+---
+
+## How Terraform Executes Multiple Files
+
+Terraform treats all `.tf` files in a directory as a single configuration. When you run commands like `terraform init`, `plan`, or `apply`, Terraform:
+
+1. **Loads all .tf files** in the working directory (order does not matter).
+2. **Merges the configuration** into a single in-memory graph, combining resources, variables, locals, outputs, and providers.
+3. **Resolves dependencies** between resources automatically (using references, `depends_on`, etc.).
+4. **Executes the plan** based on the dependency graph, ensuring resources are created, updated, or destroyed in the correct order.
+
+This modular approach lets you split your configuration into logical files (e.g., one for each resource type or feature), making your code organized and maintainable. Terraform handles the orchestration behind the scenes!
 
 ---
 
