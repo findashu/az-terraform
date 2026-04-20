@@ -21,6 +21,8 @@ Welcome! This repository is a hands-on guide for learning Infrastructure as Code
 	Learn about resource block syntax, lifecycle behavior, and Terraform state management.
 5. [Azure VNET, Subnets & NSG (Hands-On)](05-Azure-Vnet-Subnet-NSG/README.md)  
 	Build a multi-tier Azure Virtual Network with subnets and NSGs using advanced Terraform concepts.
+6. [Azure Linux VM (Hands-On)](06-azure-linux-vm/README.md)  
+	Build an Azure Linux Virtual Machine on top of the networking created in the previous section.
 
 ---
 
@@ -52,6 +54,40 @@ Terraform treats all `.tf` files in a directory as a single configuration. When 
 4. **Executes the plan** based on the dependency graph, ensuring resources are created, updated, or destroyed in the correct order.
 
 This modular approach lets you split your configuration into logical files (e.g., one for each resource type or feature), making your code organized and maintainable. Terraform handles the orchestration behind the scenes!
+
+---
+
+## Terraform File Naming Convention
+
+This repository uses a numbered Terraform file naming convention to make the learning flow easier to follow across sections.
+
+Example patterns:
+
+- `c5-01-versions.tf`
+- `c5-02-generic-input-variables.tf`
+- `c6-01-web-linuxvm-input-variables.tf`
+- `c6-05-web-linuxvm.tf`
+
+How to read the naming pattern:
+
+- `c5` means the file belongs to section 05.
+- `c6` means the file belongs to section 06.
+- The two-digit number such as `01`, `02`, or `05` represents the recommended reading and build sequence within that section.
+- The remaining part of the filename describes the purpose of the file.
+
+Why this helps:
+
+- It keeps the file order easy to understand for beginners.
+- It makes it clear which files were carried forward from earlier sections.
+- It helps when a later section reuses and extends code from a previous hands-on module.
+
+Recommended approach when reusing code from earlier sections:
+
+- Keep files copied forward from section 05 with the `c5-xx-...` prefix.
+- Add new files introduced in section 06 with the `c6-xx-...` prefix.
+- Continue the same pattern in future sections so the module history stays obvious.
+
+Important: Terraform does not execute files based on filename order. Terraform loads all `.tf` files in a directory as one configuration and determines execution order from the dependency graph. The filename convention is for readability, teaching flow, and maintainability.
 
 ---
 
